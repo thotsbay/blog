@@ -37,7 +37,7 @@ jobs:
 
     - name: Publish gost release
       id: publish
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v0.1.15
       with:
         files: |
           gost
