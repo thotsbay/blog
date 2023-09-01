@@ -37,6 +37,8 @@ jobs:
 
     - name: Create or update Git tag
       run: |
+        git config --global user.email "45bkfkwhslcw@kenvin.icu"
+        git config --global user.name "Kamren"
         git tag -a v1.0 -m "Release version 1.0"
         git push origin v1.0
       env:
