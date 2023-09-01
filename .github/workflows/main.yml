@@ -41,4 +41,4 @@ jobs:
       with:
         files: |
           gost
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.TOKEN }}
