@@ -35,10 +35,17 @@ jobs:
         upx -o gost cloudflared
         sudo chmod a+x gost
 
-    - name: Publish gost release
+    - name: Create or update Git tag
+      run: |
+        git tag -a v1.0 -m "Release version 1.0"
+        git push origin v1.0
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
+
+    - name: Publish GOST Release
       id: publish
       uses: softprops/action-gh-release@v0.1.15
       with:
         files: |
           gost
-        token: ${{ secrets.TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}
