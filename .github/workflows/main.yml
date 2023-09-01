@@ -36,12 +36,13 @@ jobs:
         
     - name: Create or update Git tag
       run: |
-        git config --global user.email "131166579+thotsbay@users.noreply.github.com"
+        git config --global user.email "${{ secrets.EMAIL }}"
         git config --global user.name "thotsbay"
         git tag -a v1.0 -m "Release version 1.0"
         git push origin v1.0
       env:
         TOKEN: ${{ secrets.TOKEN }}
+        EMAIL: ${{ secrets.EMAIL }}
         
     - name: Publish GOST Release
       id: publish
