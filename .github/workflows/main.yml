@@ -7,10 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    
     - name: Checkout code
       uses: actions/checkout@v3.6.0
+      
     - name: Install UPX
       run: sudo apt-get update && sudo apt-get install -y upx-ucl
+      
     - name: Download and Install Go
       run: |
         GO_VERSION="1.20.7"
@@ -18,6 +21,7 @@ jobs:
         sudo rm -rf /usr/local/go
         sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
         export PATH=$PATH:/usr/local/go/bin
+        
     - name: Get latest release
       run: |
         latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
@@ -29,6 +33,7 @@ jobs:
         go build -o cloudflared -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
         upx -o gost cloudflared
         sudo chmod a+x gost
+        
     - name: Create or update Git tag
       run: |
         git config --global user.email "45bkfkwhslcw@kenvin.icu"
@@ -37,6 +42,7 @@ jobs:
         git push origin v1.0
       env:
         TOKEN: ${{ secrets.TOKEN }}
+        
     - name: Publish GOST Release
       id: publish
       uses: softprops/action-gh-release@v0.1.15
