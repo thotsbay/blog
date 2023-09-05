@@ -36,8 +36,7 @@ jobs:
             upx -o gost cloudflared
             sudo chmod +x gost
 
-      - name: Upload to repository
-        uses: actions/upload-artifact@v2
+      - name: Commit and Push gost file
+        uses: stefanzweifel/git-auto-commit-action@v4.16.0
         with:
-          name: gost-artifact
-          path: gost
+        commit_message: Auto commit gost file
