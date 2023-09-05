@@ -39,4 +39,5 @@ jobs:
       - name: Commit and Push gost file
         uses: stefanzweifel/git-auto-commit-action@v4.16.0
         with:
-        commit_message: Auto commit gost file
+          commit_message: Sync gost by Github Actions.
+
