@@ -1,0 +1,43 @@
+name: "Renew app"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job-amd64:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3.6.0
+
+      - name: Check and download app
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y upx-ucl curl unzip
+
+            GO_VERSION="1.20.7"
+
+            wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
+            sudo rm -rf /usr/local/go
+            sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+            export PATH=$PATH:/usr/local/go/bin
+
+            latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
+            latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
+
+            download_url="https://github.com/cloudflare/cloudflared/archive/$latest_version.zip"
+
+            curl -LO "$download_url"
+            unzip "$latest_version.zip"
+
+            cd "cloudflared-$latest_version"
+            go build -o cloudflared -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
+            upx -o gost cloudflared
+            sudo chmod +x gost
+
+      - name: Upload to repository
+        uses: actions/upload-artifact@v2
+        with:
+          name: gost-artifact
+          path: gost
