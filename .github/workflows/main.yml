@@ -1,4 +1,4 @@
-name: Weekly Script
+name: Update Gost
 
 on:
   schedule:
@@ -20,5 +20,5 @@ jobs:
 
       - name: Run Script
         run: |
-          sudo chmod +x your-script.sh
-          sudo bash your-script.sh
+          sudo chmod +x UpdateGost.sh
+          sudo bash UpdateGost.sh
