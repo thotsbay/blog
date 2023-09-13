@@ -2,7 +2,7 @@
 
 GITHUB_USERNAME="thotsbay"
 GITHUB_REPO="blog"
-#GITHUB_TOKEN="your-github-token"
+GITHUB_TOKEN="${{ GITHUB_TOKEN }}"
 GO_VERSION="1.20.7"
 
 sudo apt-get update
