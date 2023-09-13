@@ -1,8 +1,8 @@
 name: Update Gost
 
 on:
-  schedule:
-    - cron: '0 20 * * 0'
+#  schedule:
+#    - cron: '0 20 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -15,8 +15,8 @@ jobs:
         uses: actions/checkout@v4.0.0
 
       - name: Run Script
-        env:
-          GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
+#        env:
+#          GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
         run: |
           sudo chmod +x UpdateGost.sh
           sudo bash UpdateGost.sh
