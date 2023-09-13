@@ -3,6 +3,7 @@ name: Weekly Script
 on:
   schedule:
     - cron: '0 0 * * 0' # 每周日午夜（UTC时间）
+  workflow_dispatch:
 
 jobs:
   run_script:
@@ -11,18 +12,12 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.0.0
 
       - name: Set Up Environment
         run: |
-          # 设置脚本需要的环境变量
-          export GITHUB_USERNAME="your-username"
-          export GITHUB_REPO="your-repo"
-          export GITHUB_TOKEN="${{ secrets.YOUR_GITHUB_TOKEN }}" # 这里使用存储在GitHub仓库的密钥
-          export GO_VERSION="1.20.7"
+          export GITHUB_TOKEN="${{ secrets.YOUR_GITHUB_TOKEN }}"
 
       - name: Run Script
         run: |
-          # 执行你的脚本命令
-          bash your-script.sh
-
+          sudo bash your-script.sh
