@@ -1,8 +1,8 @@
 #!/bin/bash
 
-GITHUB_USERNAME="your-username"
-GITHUB_REPO="your-repo"
-GITHUB_TOKEN="your-github-token"
+GITHUB_USERNAME="thotsbay"
+GITHUB_REPO="blog"
+#GITHUB_TOKEN="your-github-token"
 GO_VERSION="1.20.7"
 
 sudo apt-get update
