@@ -16,7 +16,7 @@ jobs:
       
       - name: Set Up Environment
         run: |
-          export GITHUB_TOKEN="${{ secrets.YOUR_GITHUB_TOKEN }}"
+          export GITHUB_TOKEN="${{ GITHUB_TOKEN }}"
           
       - name: Run Script
         run: |
