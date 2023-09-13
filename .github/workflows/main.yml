@@ -16,7 +16,7 @@ jobs:
 
       - name: Run Script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
         run: |
           sudo chmod +x UpdateGost.sh
           sudo bash UpdateGost.sh
