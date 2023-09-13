@@ -7,17 +7,15 @@ on:
 
 jobs:
   run_script:
-    name: Run Script
     runs-on: ubuntu-latest
+    name: Run Script
+    env:
+      GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4.0.0
-        
-      - name: Set Up Environment
-        run: |
-          export GITHUB_TOKEN="${{ secrets.YOUR_GITHUB_TOKEN }}"
-          
+
       - name: Run Script
         run: |
           sudo chmod +x UpdateGost.sh
