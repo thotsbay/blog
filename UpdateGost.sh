@@ -1,12 +1,9 @@
 #!/bin/bash
 
-GITHUB_TOKEN=${{ MY_TOKEN }}
-GITHUB_USERNAME="thotsbay"
-GITHUB_REPO="blog"
 GO_VERSION="1.20.8"
 
 sudo apt-get update
-sudo apt-get install -y upx-ucl curl unzip
+sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu
 
 update_readme() {
   cat <<EOL > README.md
@@ -25,15 +22,11 @@ download_compile_upload() {
   unzip "$latest_version.zip"
   cd "cloudflared-$latest_version"
 
-  go build -o cloudflared -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
-  upx -o gost cloudflared
-  sudo chmod +x gost
-}
-
-upload_to_github() {
-  git add README.md gost
-  git commit -m "Update Cloudflared version to $latest_version"
-  git push
+  go build -o cloudflared-amd -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
+  GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o cloudflared-arm -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
+  sudo chmod a+x cloudflared-amd cloudflared-arm
+  upx -o gost cloudflared-amd
+  sudo chmod a+x gost
 }
 
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
@@ -47,8 +40,6 @@ if [ "$latest_version" != "$current_version" ]; then
   update_readme
 
   download_compile_upload
-
-  upload_to_github
 
 else
   echo "Remote Cloudflared version is up to date. No need to download and compile gost."
