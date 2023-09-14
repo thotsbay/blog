@@ -20,8 +20,18 @@ jobs:
         run: |
           sudo chmod +x UpdateGost.sh
           sudo bash UpdateGost.sh
+
+      - name: Check for cloudflared-arm
+        run: |
+          if [ -e cloudflared-arm ]; then
+            echo "cloudflared-arm 文件存在，将执行提交操作。"
+          else
+            echo "cloudflared-arm 文件不存在，不执行提交操作。"
+            exit 1
+          fi
           
       - name: Commit and Push
+        if: success()
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
