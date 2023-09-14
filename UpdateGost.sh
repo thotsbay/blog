@@ -29,6 +29,15 @@ download_compile_upload() {
   sudo chmod a+x gost
 }
 
+upload_to_github() {
+  git config --local user.email "action@github.com"
+  git config --local user.name "GitHub Action"
+  git add README.md cloudflared-amd
+  git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
+  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+  git push
+}
+
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
 latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
 
@@ -38,15 +47,9 @@ if [ "$latest_version" != "$current_version" ]; then
   echo "Remote Cloudflared version ($current_version) is different from latest version ($latest_version). Updating..."
 
   update_readme
-
   download_compile_upload
+  upload_to_github
 
-  git config --local user.email "action@github.com"
-  git config --local user.name "GitHub Action"
-  git add cloudflared-amd
-  git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
-  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-  git push
 else
   echo "Remote Cloudflared version is up to date. No need to download and compile gost."
 fi
