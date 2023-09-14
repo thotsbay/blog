@@ -37,7 +37,7 @@ upload_to_github() {
   git add README.md cloudflared-amd
   git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
   github_token="$GITHUB_TOKEN"
-  git remote set-url origin "https://x-access-token:${github_token}@github.com/blog.git"
+  git remote set-url origin "https://x-access-token:${github_token}@github.com/thotsbay/blog.git"
   git push
 }
 
