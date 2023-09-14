@@ -41,6 +41,12 @@ if [ "$latest_version" != "$current_version" ]; then
 
   download_compile_upload
 
+  git config --local user.email "action@github.com"
+  git config --local user.name "GitHub Action"
+  git add cloudflared-amd
+  git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
+  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+  git push
 else
   echo "Remote Cloudflared version is up to date. No need to download and compile gost."
 fi
