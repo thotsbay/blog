@@ -26,6 +26,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Update Gost"
+          git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{github.repository}}.git
           git push
