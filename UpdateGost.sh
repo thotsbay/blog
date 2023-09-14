@@ -7,7 +7,7 @@ sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu
 
 update_readme() {
   cat <<EOL > README.md
-Latest Cloudflared Version: $latest_version
+Latest Version: $latest_version
 EOL
 }
 
@@ -34,7 +34,7 @@ download_compile_upload() {
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
 latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
 
-current_version=$(curl -s "https://raw.githubusercontent.com/thotsbay/blog/main/README.md" | grep 'Latest Cloudflared Version:' | awk '{print $NF}')
+current_version=$(curl -s "https://raw.githubusercontent.com/thotsbay/blog/main/README.md" | grep 'Latest Version:' | awk '{print $NF}')
 
 if [ "$latest_version" != "$current_version" ]; then
   echo "Remote Cloudflared version ($current_version) is different from latest version ($latest_version). Updating..."
