@@ -14,15 +14,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4.0.0
 
-      - name: Run Script
-#        env:
-#          GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
+      - name: Run Script && Commit and Push
         run: |
           sudo chmod +x UpdateGost.sh
           sudo bash UpdateGost.sh
-
-      - name: Commit and Push
-        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add cloudflared-amd
