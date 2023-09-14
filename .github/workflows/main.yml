@@ -9,7 +9,9 @@ jobs:
   run_script:
     runs-on: ubuntu-latest
     name: Run Script
-
+    env:
+      MY_TOKEN: ${{ secrets.MY_TOKEN }}
+      
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4.0.0
