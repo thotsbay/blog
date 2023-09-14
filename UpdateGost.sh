@@ -53,3 +53,5 @@ if [ "$latest_version" != "$current_version" ]; then
 else
   echo "Remote Cloudflared version is up to date. No need to download and compile gost."
 fi
+
+# sudo chmod a+x UpdateGost.sh && sudo bash UpdateGost.sh
