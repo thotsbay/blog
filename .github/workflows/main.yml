@@ -24,18 +24,13 @@ jobs:
       - name: Check for cloudflared-arm
         run: |
           if [ -e cloudflared-arm ]; then
-            echo "cloudflared-arm file exists, will perform commit operation."
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add gost README.md
+            git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
+            git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
+            git push
           else
             echo "cloudflared-arm file does not exist, won't perform commit operation."
-            exit 1
           fi
-          
-      - name: Commit and Push
-        if: success()
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add gost README.md
-          git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
-          git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
-          git push
+
