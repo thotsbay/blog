@@ -20,3 +20,12 @@ jobs:
         run: |
           sudo chmod +x UpdateGost.sh
           sudo bash UpdateGost.sh
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update Gost"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{github.repository}}.git
+          git push
