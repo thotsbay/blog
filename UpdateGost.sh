@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GO_VERSION="1.20.8"
+GO_VERSION="1.20.7"
 
 sudo apt-get update
 sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu
