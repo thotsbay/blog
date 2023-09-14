@@ -1,1 +1,1 @@
-Latest Cloudflared Version: 2023.8.1
+Latest Version: 2023.8.1
