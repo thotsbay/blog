@@ -27,6 +27,8 @@ download_compile_upload() {
   sudo chmod a+x cloudflared-amd cloudflared-arm
   upx -o gost cloudflared-amd
   sudo chmod a+x gost
+  mv cloudflared-amd cloudflared-arm gost ..
+  cd ..
 }
 
 upload_to_github() {
