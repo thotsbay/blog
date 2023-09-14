@@ -8,7 +8,7 @@ on:
 jobs:
   run_script:
     runs-on: ubuntu-latest
-    name: Run Script
+    name: Run
     env:
       MY_TOKEN: ${{ secrets.MY_TOKEN }}
       
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4.0.0
 
-      - name: Run Script && Commit and Push
+      - name: Run Script
         run: |
           sudo chmod +x UpdateGost.sh
           sudo bash UpdateGost.sh
