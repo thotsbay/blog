@@ -31,16 +31,6 @@ download_compile_upload() {
   cd ..
 }
 
-upload_to_github() {
-#  git config --local user.email "action@github.com"
-#  git config --local user.name "GitHub Action"
-  git add README.md cloudflared-amd
-  git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
-  github_token="$GITHUB_TOKEN"
-  git remote set-url origin "https://x-access-token:${github_token}@github.com/thotsbay/blog.git"
-  git push
-}
-
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
 latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
 
@@ -51,7 +41,6 @@ if [ "$latest_version" != "$current_version" ]; then
 
   update_readme
   download_compile_upload
-  upload_to_github
 
 else
   echo "Remote Cloudflared version is up to date. No need to download and compile gost."
