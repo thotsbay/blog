@@ -24,9 +24,9 @@ jobs:
       - name: Check for cloudflared-arm
         run: |
           if [ -e cloudflared-arm ]; then
-            echo "cloudflared-arm 文件存在，将执行提交操作。"
+            echo "cloudflared-arm file exists, will perform commit operation."
           else
-            echo "cloudflared-arm 文件不存在，不执行提交操作。"
+            echo "cloudflared-arm file does not exist, won't perform commit operation."
             exit 1
           fi
           
