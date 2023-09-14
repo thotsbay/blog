@@ -32,8 +32,8 @@ download_compile_upload() {
 }
 
 upload_to_github() {
-  git config --local user.email "action@github.com"
-  git config --local user.name "GitHub Action"
+#  git config --local user.email "action@github.com"
+#  git config --local user.name "GitHub Action"
   git add README.md cloudflared-amd
   git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
   github_token="$GITHUB_TOKEN"
