@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#GITHUB_TOKEN=${{ GITHUB_TOKEN }}
+GITHUB_TOKEN=${{ MY_TOKEN }}
 GITHUB_USERNAME="thotsbay"
 GITHUB_REPO="blog"
-GO_VERSION="1.20.7"
+GO_VERSION="1.20.8"
 
 sudo apt-get update
 sudo apt-get install -y upx-ucl curl unzip
