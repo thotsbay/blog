@@ -1,8 +1,8 @@
 name: Update Gost
 
 on:
-#  schedule:
-#    - cron: '0 20 * * 0'
+  schedule:
+    - cron: '0 20 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add cloudflared-amd
+          git add gost README.md
           git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
           git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
           git push
