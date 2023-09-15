@@ -8,6 +8,7 @@ PACKAGE_NAME="NiceGost"
 PACKAGE_VERSION="$latest_version"
 
 export PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
+export PACKAGE_VERSION
 
 update_readme() {
   cat <<EOL > README.md
