@@ -5,20 +5,6 @@ GO_VERSION="1.20.8"
 sudo apt-get update
 sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu devscripts build-essential debhelper
 
-latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
-latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
-
-current_version=$(curl -s "https://raw.githubusercontent.com/thotsbay/blog/main/README.md" | grep 'Latest Version:' | awk '{print $NF}')
-
-if [ "$latest_version" != "$current_version" ]; then
-  echo "Remote Cloudflared version ($current_version) is different from latest version ($latest_version). Updating..."
-  update_readme
-  download_compile_upload
-  build_deb_package
-else
-  echo "Remote Cloudflared version is up to date. No need to download and compile gost."
-fi
-
 update_readme() {
   cat <<EOL > README.md
 Latest Version: $latest_version
@@ -46,22 +32,23 @@ download_compile_upload() {
 }
 
 build_deb_package() {
-  PACKAGE_NAME="NiceGost"
-  PACKAGE_VERSION="$latest_version"
-  PACKAGE_ARCH="amd64"
-  MAINTAINER="NiceGost <NiceGost@email.com>"
-  DESCRIPTION="NiceGost"
+PACKAGE_NAME="NiceGost"
+PACKAGE_VERSION="$latest_version"
+PACKAGE_ARCH="amd64"
+MAINTAINER="NiceGost <NiceGost@email.com>"
+DESCRIPTION="NiceGost"
 
-  PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
-  DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
-  INSTALL_DIR="$PACKAGE_DIR/usr/bin"
+PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
+DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
+INSTALL_DIR="$PACKAGE_DIR/usr/bin"
 
-  mkdir -p "$DEBIAN_DIR"
-  mkdir -p "$INSTALL_DIR"
+mkdir -p "$DEBIAN_DIR"
+sudo chmod 0755 "$DEBIAN_DIR"
 
-  cp gost "$INSTALL_DIR"
+mkdir -p "$INSTALL_DIR"
+cp gost "$INSTALL_DIR"
 
-  cat > "$DEBIAN_DIR/control" <<EOF
+sudo cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
 Version: $PACKAGE_VERSION
 Architecture: $PACKAGE_ARCH
@@ -69,9 +56,24 @@ Maintainer: $MAINTAINER
 Description: $DESCRIPTION
 EOF
 
-  dpkg-deb --build "$PACKAGE_DIR"
+dpkg-deb --build "$PACKAGE_DIR"
 
-  rm -rf "$PACKAGE_DIR"
+rm -rf "$PACKAGE_DIR"
 
-  echo "Package $PACKAGE_NAME.deb created successfully."
+echo "Package $PACKAGE_NAME.deb created successfully."
+
 }
+
+latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
+latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
+
+current_version=$(curl -s "https://raw.githubusercontent.com/thotsbay/blog/main/README.md" | grep 'Latest Version:' | awk '{print $NF}')
+
+if [ "$latest_version" != "$current_version" ]; then
+  echo "Remote Cloudflared version ($current_version) is different from latest version ($latest_version). Updating..."
+  update_readme
+  download_compile_upload
+  build_deb_package
+else
+  echo "Remote Cloudflared version is up to date. No need to download and compile gost."
+fi
