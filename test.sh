@@ -3,7 +3,7 @@
 GO_VERSION="1.20.8"
 
 sudo apt-get update
-sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu devscripts build-essential
+sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu devscripts build-essential debhelper
 
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
 latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -f 4)
