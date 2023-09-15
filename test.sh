@@ -56,9 +56,8 @@ Description: $DESCRIPTION
 EOF
 
   dpkg-deb --build "$PACKAGE_DIR"
-
   rm -rf "$PACKAGE_DIR"
-
+  
   echo "软件包 $PACKAGE_NAME.deb 创建完成。"
 }
 
