@@ -22,25 +22,26 @@ jobs:
           sudo bash test.sh
 
       - name: Check for NiceGost.deb
-        run: |
-          if [ -e NiceGost.deb ]; then
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add nicegost
-            git commit -m "Update NiceGost on $(date "+%Y/%m/%d %H:%M:%S")"
-            git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
-            git push
-            echo "::set-output name=deb_file_found::true"
-          else
-            echo "NiceGost.deb file not found, won't perform commit operation."
-            echo "::set-output name=deb_file_found::false"
-          fi
-          
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: NiceGost.deb 
-          tag_name: ${{ env.PACKAGE_VERSION }} 
-          name: Release ${{ env.PACKAGE_NAME }} 
-          body: ${{ env.DESCRIPTION }}
-        if: steps.check-for-deb.outputs.deb_file_found == 'true'
+  run: |
+    deb_file="$PACKAGE_DIR.deb"
+    if [ -e "$deb_file" ]; then
+      git config --local user.email "action@github.com"
+      git config --local user.name "GitHub Action"
+      git add nicegost
+      git commit -m "Update NiceGost on $(date "+%Y/%m/%d %H:%M:%S")"
+      git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{ github.repository }}.git
+      git push
+      echo "::set-output name=deb_file_found::true"
+    else
+      echo "$deb_file file not found, won't perform commit operation."
+      echo "::set-output name=deb_file_found::false"
+    fi
+    
+- name: Create GitHub Release
+  uses: softprops/action-gh-release@v1
+  with:
+    files: ${{ env.PACKAGE_DIR }}.deb
+    tag_name: ${{ env.PACKAGE_VERSION }}
+    name: Release ${{ env.PACKAGE_NAME }}
+    body: ${{ env.DESCRIPTION }}
+  if: steps.check-for-deb.outputs.deb_file_found == 'true'
