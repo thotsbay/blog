@@ -29,7 +29,7 @@ download_compile_upload() {
   upx -o nicegost cloudflared-amd
   sudo chmod a+x nicegost
 
-  mv cloudflared-amd cloudflared-arm gost ..
+  mv cloudflared-amd cloudflared-arm nicegost ..
   cd ..
 }
 
