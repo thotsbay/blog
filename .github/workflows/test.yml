@@ -1,0 +1,47 @@
+name: test
+
+on:
+  schedule:
+    - cron: '0 20 * * 0'
+  workflow_dispatch:
+
+jobs:
+  run_script:
+    runs-on: ubuntu-20.04
+    name: Run
+    env:
+      MY_TOKEN: ${{ secrets.MY_TOKEN }}
+      
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.0.0
+
+      - name: Run Script
+        run: |
+          sudo chmod +x NiceGost.sh
+          sudo bash NiceGost.sh
+
+      - name: Check for cloudflared-arm
+        id: check-cloudflared-arm
+        run: |
+          if [ -e cloudflared-arm ]; then
+            echo "::set-output name=exists::true"
+          else
+            echo "::set-output name=exists::false"
+          fi
+          
+      - name: Upload to Release
+        id: upload-release
+        if: steps.check-cloudflared-arm.outputs.exists == 'true'
+        uses: svenstaro/upload-release-action@2.7.0
+        with:
+          tag: ${{ github.run_number }}
+          files: NiceGost.deb
+          asset_name: NiceGost.deb
+          overwrite: true
+          
+      - name: Set Release URL
+        run: |
+          if [ -n "${{ steps.upload-release.outputs.tag }}" ]; then
+            echo "RELEASE_URL=https://github.com/${{ github.repository }}/releases/tag/${{ steps.upload-release.outputs.tag }}" >> $GITHUB_ENV
+          fi
