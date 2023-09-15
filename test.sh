@@ -25,8 +25,8 @@ download_compile_upload() {
   go build -o cloudflared-amd -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
   GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o cloudflared-arm -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
   sudo chmod a+x cloudflared-amd cloudflared-arm
-  upx -o gost cloudflared-amd
-  sudo chmod a+x gost
+  upx -o nicegost cloudflared-amd
+  sudo chmod a+x nicegost
   mv cloudflared-amd cloudflared-arm gost ..
   cd ..
 }
@@ -46,7 +46,7 @@ mkdir -p "$DEBIAN_DIR"
 sudo chmod 0755 "$DEBIAN_DIR"
 
 mkdir -p "$INSTALL_DIR"
-cp gost "$INSTALL_DIR"
+cp micegost "$INSTALL_DIR"
 
 sudo cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
