@@ -27,9 +27,9 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add NiceGost.deb README.md
-            git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
+            git commit -m "Update NiceGost on $(date "+%Y/%m/%d %H:%M:%S")"
             git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
-            git push
+            git push origin main
           else
             echo "cloudflared-arm file does not exist, won't perform commit operation."
           fi
