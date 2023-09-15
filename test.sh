@@ -24,31 +24,33 @@ download_compile_upload() {
 
   go build -o cloudflared-amd -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
   GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o cloudflared-arm -trimpath -ldflags "-s -w -buildid=" ./cmd/cloudflared
+
   sudo chmod a+x cloudflared-amd cloudflared-arm
   upx -o nicegost cloudflared-amd
   sudo chmod a+x nicegost
+
   mv cloudflared-amd cloudflared-arm gost ..
   cd ..
 }
 
 build_deb_package() {
-PACKAGE_NAME="NiceGost"
-PACKAGE_VERSION="$latest_version"
-PACKAGE_ARCH="amd64"
-MAINTAINER="NiceGost <NiceGost@email.com>"
-DESCRIPTION="NiceGost"
+  PACKAGE_NAME="NiceGost"
+  PACKAGE_VERSION="$latest_version"
+  PACKAGE_ARCH="amd64"
+  MAINTAINER="NiceGost <NiceGost@email.com>"
+  DESCRIPTION="NiceGost"
 
-PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
-DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
-INSTALL_DIR="$PACKAGE_DIR/usr/bin"
+  PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
+  DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
+  INSTALL_DIR="$PACKAGE_DIR/usr/bin"
 
-mkdir -p "$DEBIAN_DIR"
-sudo chmod 0755 "$DEBIAN_DIR"
+  mkdir -p "$DEBIAN_DIR"
+  sudo chmod 0755 "$DEBIAN_DIR"
 
-mkdir -p "$INSTALL_DIR"
-cp micegost "$INSTALL_DIR"
+  mkdir -p "$INSTALL_DIR"
+  cp micegost "$INSTALL_DIR"
 
-sudo cat > "$DEBIAN_DIR/control" <<EOF
+  sudo cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
 Version: $PACKAGE_VERSION
 Architecture: $PACKAGE_ARCH
@@ -56,12 +58,10 @@ Maintainer: $MAINTAINER
 Description: $DESCRIPTION
 EOF
 
-dpkg-deb --build "$PACKAGE_DIR"
+  dpkg-deb --build "$PACKAGE_DIR"
+  rm -rf "$PACKAGE_DIR"
 
-rm -rf "$PACKAGE_DIR"
-
-echo "Package $PACKAGE_NAME.deb created successfully."
-
+  echo "Package $PACKAGE_NAME.deb created successfully."
 }
 
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
@@ -75,5 +75,5 @@ if [ "$latest_version" != "$current_version" ]; then
   download_compile_upload
   build_deb_package
 else
-  echo "Remote Cloudflared version is up to date. No need to download and compile gost."
+  echo "Remote Cloudflared version is up to date. No need to download and compile nicegost."
 fi
