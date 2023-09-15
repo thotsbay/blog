@@ -48,7 +48,7 @@ build_deb_package() {
   sudo chmod 0755 "$DEBIAN_DIR"
 
   mkdir -p "$INSTALL_DIR"
-  cp micegost "$INSTALL_DIR"
+  cp nicegost "$INSTALL_DIR"
 
   sudo cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
