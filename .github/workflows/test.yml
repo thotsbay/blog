@@ -21,7 +21,7 @@ jobs:
 
       - name: Check for NiceGost.deb
         run: |
-          deb_file="${{ env.PACKAGE_DIR }}.deb"
+          deb_file="${PACKAGE_DIR}.deb"
           if [ -e "$deb_file" ]; then
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
