@@ -41,5 +41,4 @@ jobs:
           files: ${{ env.PACKAGE_DIR }}.deb
           tag_name: ${{ env.PACKAGE_VERSION }}
           name: Release ${{ env.PACKAGE_NAME }}
-          body: ${{ env.DESCRIPTION }}
         if: steps.check-for-deb.outputs.deb_file_found == 'true'
