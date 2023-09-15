@@ -1,9 +1,13 @@
 #!/bin/bash
 
-GO_VERSION="1.20.8"
-
 sudo apt-get update
 sudo apt-get install -y upx-ucl curl unzip gcc-aarch64-linux-gnu devscripts build-essential debhelper
+
+GO_VERSION="1.20.8"
+PACKAGE_NAME="NiceGost"
+PACKAGE_VERSION="$latest_version"
+
+export PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
 
 update_readme() {
   cat <<EOL > README.md
@@ -30,13 +34,11 @@ download_compile_upload() {
   sudo chmod a+x nicegost
 
   mv cloudflared-amd cloudflared-arm nicegost ..
+
   cd ..
 }
 
 build_deb_package() {
-  PACKAGE_NAME="NiceGost"
-  PACKAGE_VERSION="$latest_version"
-  PACKAGE_ARCH="amd64"
   MAINTAINER="NiceGost <NiceGost@email.com>"
   DESCRIPTION="NiceGost"
 
@@ -53,7 +55,7 @@ build_deb_package() {
   sudo cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
 Version: $PACKAGE_VERSION
-Architecture: $PACKAGE_ARCH
+Architecture: amd64
 Maintainer: $MAINTAINER
 Description: $DESCRIPTION
 EOF
@@ -70,7 +72,7 @@ latest_version=$(echo "$latest_release_info" | grep '"tag_name":' | cut -d '"' -
 current_version=$(curl -s "https://raw.githubusercontent.com/thotsbay/blog/main/README.md" | grep 'Latest Version:' | awk '{print $NF}')
 
 if [ "$latest_version" != "$current_version" ]; then
-  echo "Remote Cloudflared version ($current_version) is different from latest version ($latest_version). Updating..."
+  echo "Remote Cloudflared version ($current_version) is different from the latest version ($latest_version). Updating..."
   update_readme
   download_compile_upload
   build_deb_package
