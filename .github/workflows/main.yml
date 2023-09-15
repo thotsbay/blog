@@ -1,4 +1,4 @@
-name: Update Gost
+name: Update NiceGost
 
 on:
   schedule:
@@ -18,15 +18,15 @@ jobs:
 
       - name: Run Script
         run: |
-          sudo chmod +x UpdateGost.sh
-          sudo bash UpdateGost.sh
+          sudo chmod +x NiceGost.sh
+          sudo bash NiceGost.sh
 
       - name: Check for cloudflared-arm
         run: |
           if [ -e cloudflared-arm ]; then
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add gost README.md
+            git add NiceGost.deb README.md
             git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
             git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
             git push
