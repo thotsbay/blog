@@ -27,7 +27,7 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add nicegost
-            git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
+            git commit -m "Update NiceGost on $(date "+%Y/%m/%d %H:%M:%S")"
             git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
             git push
             echo "::set-output name=deb_file_found::true"
