@@ -42,7 +42,7 @@ download_compile_upload() {
 
 build_deb_package() {
   MAINTAINER="NiceGost <NiceGost@email.com>"
-  DESCRIPTION="NiceGost"
+  DESCRIPTION="NiceGost 2023"
 
   PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
   DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
