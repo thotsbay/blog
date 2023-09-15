@@ -1,8 +1,8 @@
 name: test
 
 on:
-  schedule:
-    - cron: '0 20 * * 0'
+#  schedule:
+#    - cron: '0 20 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -40,9 +40,3 @@ jobs:
           file: NiceGost.deb
           asset_name: NiceGost.deb
           overwrite: true
-          
-      - name: Set Release URL
-        run: |
-          if [ -n "${{ steps.upload-release.outputs.tag }}" ]; then
-            echo "RELEASE_URL=https://github.com/${{ github.repository }}/releases/tag/${{ steps.upload-release.outputs.tag }}" >> $GITHUB_ENV
-          fi
