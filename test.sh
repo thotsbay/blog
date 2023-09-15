@@ -29,28 +29,28 @@ download_compile_upload() {
   upx -o nicegost cloudflared-amd
   sudo chmod a+x nicegost
 
-  mv cloudflared-amd cloudflared-arm gost ..
+  mv cloudflared-amd cloudflared-arm nicegost ..
   cd ..
 }
 
 build_deb_package() {
   PACKAGE_NAME="NiceGost"
   PACKAGE_VERSION="$latest_version"
-PACKAGE_ARCH="amd64"
-MAINTAINER="NiceGost <NiceGost@email.com>"
-DESCRIPTION="NiceGost 2023"
+  PACKAGE_ARCH="amd64"
+  MAINTAINER="NiceGost <NiceGost@email.com>"
+  DESCRIPTION="NiceGost 2023"
 
-PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
-DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
-INSTALL_DIR="$PACKAGE_DIR/usr/bin"
+  PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION"
+  DEBIAN_DIR="$PACKAGE_DIR/DEBIAN"
+  INSTALL_DIR="$PACKAGE_DIR/usr/bin"
 
-mkdir -p "$DEBIAN_DIR"
-chmod 0755 "$DEBIAN_DIR"
+  mkdir -p "$DEBIAN_DIR"
+  chmod 0755 "$DEBIAN_DIR"
 
-mkdir -p "$INSTALL_DIR"
-cp nicegost "$INSTALL_DIR"
+  mkdir -p "$INSTALL_DIR"
+  cp nicegost "$INSTALL_DIR"
 
-cat > "$DEBIAN_DIR/control" <<EOF
+  cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
 Version: $PACKAGE_VERSION
 Architecture: $PACKAGE_ARCH
@@ -58,11 +58,10 @@ Maintainer: $MAINTAINER
 Description: $DESCRIPTION
 EOF
 
-dpkg-deb --build "$PACKAGE_DIR" "$PACKAGE_NAME.deb"
-rm -rf "$PACKAGE_DIR"
+  dpkg-deb --build "$PACKAGE_DIR" "$PACKAGE_NAME.deb"
+  rm -rf "$PACKAGE_DIR"
 
-echo "Package $PACKAGE_NAME.deb created successfully."
-
+  echo "Package $PACKAGE_NAME.deb created successfully."
 }
 
 latest_release_info=$(curl -s https://api.github.com/repos/cloudflare/cloudflared/releases/latest)
@@ -76,5 +75,5 @@ if [ "$latest_version" != "$current_version" ]; then
   download_compile_upload
   build_deb_package
 else
-  echo "Remote Cloudflared version is up to date. No need to download and compile nicegost."
+  echo "Remote Cloudflared version is up to date. No need to download and compile NiceGost."
 fi
