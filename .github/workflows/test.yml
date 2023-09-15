@@ -18,16 +18,15 @@ jobs:
 
       - name: Run Script
         run: |
-          sudo chmod +x UpdateGost.sh
-          sudo bash UpdateGost.sh
+          sudo chmod +x test.sh
+          sudo bash test.sh
 
       - name: Check for NiceGost.deb
         run: |
           if [ -e NiceGost.deb ]; then
-            echo "NiceGost.deb file found."
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git add gost README.md
+            git add nicegost
             git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
             git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
             git push
