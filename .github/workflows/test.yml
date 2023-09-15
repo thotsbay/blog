@@ -1,0 +1,47 @@
+name: Update Gost
+
+on:
+  schedule:
+    - cron: '0 20 * * 0'
+  workflow_dispatch:
+
+jobs:
+  run_script:
+    runs-on: ubuntu-20.04
+    name: Run
+    env:
+      MY_TOKEN: ${{ secrets.MY_TOKEN }}
+      
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.0.0
+
+      - name: Run Script
+        run: |
+          sudo chmod +x UpdateGost.sh
+          sudo bash UpdateGost.sh
+
+      - name: Check for NiceGost.deb
+        run: |
+          if [ -e NiceGost.deb ]; then
+            echo "NiceGost.deb file found."
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add gost README.md
+            git commit -m "Update Gost on $(date "+%Y/%m/%d %H:%M:%S")"
+            git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/${{github.repository}}.git
+            git push
+            echo "::set-output name=deb_file_found::true"
+          else
+            echo "NiceGost.deb file not found, won't perform commit operation."
+            echo "::set-output name=deb_file_found::false"
+          fi
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: NiceGost.deb 
+          tag_name: ${{ env.PACKAGE_VERSION }} 
+          name: Release ${{ env.PACKAGE_VERSION }} 
+          body: ${{ env.DESCRIPTION }}
+        if: steps.check-for-deb.outputs.deb_file_found == 'true'
