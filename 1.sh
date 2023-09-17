@@ -4,6 +4,7 @@ PACKAGE_NAME="mysql"
 PACKAGE_VERSION="8.0.34"
 PACKAGE_ARCH="amd64"
 PACKAGE_FILENAME="${PACKAGE_NAME}-${PACKAGE_VERSION}-${PACKAGE_ARCH}.deb"
+MAINTAINER="MySQL <dev@MySQL.com>"
 DESCRIPTION="MySQL Database Server"
 
 PACKAGE_DIR="$PACKAGE_NAME-$PACKAGE_VERSION-$PACKAGE_ARCH"
@@ -20,10 +21,11 @@ cat > "$DEBIAN_DIR/control" <<EOF
 Package: $PACKAGE_NAME
 Version: $PACKAGE_VERSION
 Architecture: $PACKAGE_ARCH
+Maintainer: $MAINTAINER
 Description: $DESCRIPTION
 EOF
 
-dpkg-deb --build "$PACKAGE_DIR" "$PACKAGE_FILENAME.deb"
+dpkg-deb --build "$PACKAGE_DIR" "$PACKAGE_FILENAME"
 rm -rf "$PACKAGE_DIR"
-  
-echo "Package $PACKAGE_FILENAME.deb created successfully."
+
+echo "Package $PACKAGE_FILENAME created successfully."
