@@ -12,4 +12,4 @@ RUN chown -R user:hugg /app
 WORKDIR /app
 USER 10010
 
-HEALTHCHECK --interval=90s --timeout=15s CMD curl -f http://localhost:$PORT || exit 1
+HEALTHCHECK --interval=120s --timeout=30s CMD curl -f http://localhost:$PORT || exit 1
